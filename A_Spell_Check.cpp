@@ -98,7 +98,14 @@ const ll pi = 3.14159265358979323846;
 jaiShreeRam{
     
     letsgooooooooooo
-    
+    test{
+        lli n ; cin >> n; 
+        string str ; cin >> str ; 
+
+        
+
+
+    }
 
     
 
