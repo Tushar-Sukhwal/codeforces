@@ -10,30 +10,28 @@ using namespace std;
   cin >> Tushars_07; \
   while (Tushars_07--)
 #define endl "\n"
-#define no cout<<"NO \n";
-#define yes cout<<"YES \n";
+#define no cout << "NO \n";
+#define yes cout << "YES \n";
 // const ll mod = 1000000007;
 // const ll mod = 998244353;
 
-
 int32_t main() {
   letsgooooooooooo cout << fixed << setprecision(7);
-  int n , a , b , c ; cin >> n >> a >> b >> c ; 
 
-  int ans = 0 ; 
-  for(int i = 0 ; i<=4000 ; i++){
-    for(int j = 0 ; j<=4000 ; j++){
-      int cz = n - (a*i) - (b*j) ; 
-      if(cz<0) break ; 
-
-      double z = cz /(double) c ; 
-      if(z == (int)z ){
-        ans = max(i+j+(int)z , ans);
-      }
-    }
+  int n, k;
+  cin >> n >> k;
+  if (k % 2) {
+    cout << "1";
+    return 0;
   }
-  cout<<ans<<endl; 
-
+  while (1) {
+    int num = (int)log2(k);
+    if (pow(2, num) == k) {
+      break;
+    }
+    k = k - pow(2, num);
+  }
+  cout << 1 + (int)log2(k);
 
   return 0;
 }

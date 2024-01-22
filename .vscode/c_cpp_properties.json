@@ -12,7 +12,7 @@
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "macos-gcc-arm64",
-            "compilerPath": ""
+            "compilerPath": "/opt/homebrew/bin/g++"
         }
     ],
     "version": 4

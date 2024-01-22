@@ -18,21 +18,25 @@ using namespace std;
 
 int32_t main() {
   letsgooooooooooo cout << fixed << setprecision(7);
-  int n , a , b , c ; cin >> n >> a >> b >> c ; 
+  int t,n;
+  cin>>t>>n;
+  vector<int> a(t),b(t);
+  for(int i=0;i<t;i++){
+    cin>>a[i];
+  }
+  for(int i=0;i<t;i++){
+    cin>>b[i];
+  }
+  if(a[n-1]=='1'){
+    cout<<"YES"<<endl;  }
+  for(int i=0;i<t;i++){
+    //n reached then correct
+    if(a[i]=='1'){
 
-  int ans = 0 ; 
-  for(int i = 0 ; i<=4000 ; i++){
-    for(int j = 0 ; j<=4000 ; j++){
-      int cz = n - (a*i) - (b*j) ; 
-      if(cz<0) break ; 
-
-      double z = cz /(double) c ; 
-      if(z == (int)z ){
-        ans = max(i+j+(int)z , ans);
-      }
     }
   }
-  cout<<ans<<endl; 
+  
+    
 
 
   return 0;

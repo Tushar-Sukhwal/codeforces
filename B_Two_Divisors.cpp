@@ -18,21 +18,10 @@ using namespace std;
 
 int32_t main() {
   letsgooooooooooo cout << fixed << setprecision(7);
-  int n , a , b , c ; cin >> n >> a >> b >> c ; 
-
-  int ans = 0 ; 
-  for(int i = 0 ; i<=4000 ; i++){
-    for(int j = 0 ; j<=4000 ; j++){
-      int cz = n - (a*i) - (b*j) ; 
-      if(cz<0) break ; 
-
-      double z = cz /(double) c ; 
-      if(z == (int)z ){
-        ans = max(i+j+(int)z , ans);
-      }
-    }
+  test{
+    int a , b ; cin >> a >> b ; 
+    if(b%2 != )
   }
-  cout<<ans<<endl; 
 
 
   return 0;
