@@ -18,8 +18,16 @@ using namespace std;
 
 int32_t main() {
   letsgooooooooooo cout << fixed << setprecision(7);
-  
-    
+  test{
+    string str ; cin >> str ; 
+    int a = 0 , b = 0 ; 
+    for(int i = 0 ; i<str.size() ; i++){
+      if(str[i] == 'a') a++; 
+      else b++; 
+    }
+    if(a == b ) yes
+    else no 
+  }
 
 
   return 0;
