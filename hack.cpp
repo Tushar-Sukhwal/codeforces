@@ -18,16 +18,19 @@ int main() {
   cout.rdbuf(outFile.rdbuf());        // Redirect cout to outFile
 
   // Your existing code
-  cout << 1 << endl;
-  cout << 2 * 1e4 << "\n";
+  cout << 1e3 << "\n";
 
-  for (int i = 0; i < 2 * static_cast<int>(1e4); i++) {
-    cout << INT_MAX << " ";
+  for (int j = 0; j < 1e3; j++) {
+    cout << 199 << endl;
+    for (int i = 0; i < 199; i++) {
+      char c = 97 + i % 26;
+      cout << c;
+    }
+    cout << endl;
   }
 
   // Restore cout to the original buffer
   cout.rdbuf(coutbuf);
-  cout << endl;
   // Close the file
   outFile.close();
 

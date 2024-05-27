@@ -15,45 +15,30 @@ using namespace std;
 // const ll mod = 1000000007;
 // const ll mod = 998244353;
 
-// Assume 32 bit decimal number
-string DecimalToBinaryString(int a) {
-  string binary = "";
-  int mask = 1;
-  for (int i = 0; i < 31; i++) {
-    if ((mask & a) >= 1)
-      binary = "1" + binary;
-    else
-      binary = "0" + binary;
-    mask <<= 1;
-  }
-  cout << binary << endl;
-  return binary;
-}
-
 int32_t main() {
   letsgooooooooooo cout << fixed << setprecision(7);
-  map<int, int> m;
-  for (int i = 0; i < 30; i++) {
-    m[i] = 0;
+  vector<int> arr(31, 0);
+  int temp = 1;
+  for (int i = 0; i < 31; i++) {
+    arr[i] = temp;
+    temp = temp * 2;
   }
+
+    map<int, int> m;
   test {
     int a, b;
     cin >> a >> b;
-    if (a = 1) {
-      m[b]++;
+    if (a == 1) {
+      m[arr[b]]++;
     } else {
-      string str = DecimalToBinaryString(b);
-      int flag = 0;
-      for (int i = 0; i < 32; i++) {
-        if (m[i] == 0 && (str[31 - i]) == 1) {
-          flag = 1;
+      for (int i = 30; i >= 0; i--) {
+        if (b >= arr[i] && b != 0) {
+          if (m.count(arr[i])) {
+            b -= min(b / arr[i], m[arr[i]]) * arr[i];
+          }
         }
       }
-      if (flag) {
-        nobrea
-      } else {
-        yes
-      }
+      if (b == 0) yes else no
     }
   }
 

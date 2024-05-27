@@ -20,39 +20,34 @@ int32_t main() {
   test {
     int n;
     cin >> n;
-    vector<pair<int, int>> arr;
+    vector<pair<int, int>> arr(n);
     for (int i = 0; i < n; i++) {
-      int a;
-      cin >> a;
-      arr.push_back(make_pair(a, i));
+      cin >> arr[i].first;
+      arr[i].second = i;
     }
     sort(arr.begin(), arr.end());
-    vector<int> prefix(n);
     int sum = 0;
-    for (int i = 0; i < n; i++) {
-      sum += arr[i].first;
-      prefix[i] = sum;
-    }
     vector<pair<int, int>> ans;
-    ans.push_back(make_pair(arr[arr.size() - 1].second, arr.size() - 1));
-
-
-    for (int i = arr.size() - 2; i >= 0; i--) {
-      int count = i;
-      for (int j = i + 1; j < arr.size(); j++) {
-        if (arr[j].first <= prefix[j-1]) {
-          count++;
-        } else {
-          break;
-        }
+    for (int i = 0; i < n;) {
+      sum += arr[i].first;
+      int k = 1;
+      int temp = i;
+      while (temp < n - 1 && sum >= arr[temp + 1].first) {
+        k++;
+        sum += arr[temp+1].first;
+        temp++;
       }
-      ans.push_back(make_pair(arr[i].second, count));
+      // cout << "k" << k << endl;
+      while (k--) {
+        ans.push_back(make_pair(arr[i++].second, i + k ));
+      }
     }
-    sort(ans.begin() , ans.end()) ; 
-    for(int i = 0 ; i<ans.size()  ; i++){
-      cout<<ans[i].second<<" ";
+    sort(ans.begin(), ans.end());
+    for (int i = 0; i < n; i++) {
+      cout << ans[i].second << " ";
     }
-    cout<<endl ;
+    cout << endl;
   }
+
   return 0;
 }

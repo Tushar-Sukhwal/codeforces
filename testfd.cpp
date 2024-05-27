@@ -1,3 +1,5 @@
+// Author :- Tushar
+// Date:- 2024-04-07 15:37:09
 #include <bits/stdc++.h>
 using namespace std;
 #define int long long
@@ -10,17 +12,15 @@ using namespace std;
   cin >> Tushars_07; \
   while (Tushars_07--)
 #define endl "\n"
-#define no cout<<"NO \n";
-#define yes cout<<"YES \n";
+#define no cout << "NO \n";
+#define yes cout << "YES \n";
 // const ll mod = 1000000007;
 // const ll mod = 998244353;
 
-
 int32_t main() {
   letsgooooooooooo cout << fixed << setprecision(7);
-  cout<<"Hello world";
-    
 
+  cout << "HI" << endl;
 
   return 0;
 }

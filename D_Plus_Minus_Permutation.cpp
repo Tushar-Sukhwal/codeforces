@@ -15,33 +15,19 @@ using namespace std;
 // const ll mod = 1000000007;
 // const ll mod = 998244353;
 
-int summ(int n) { return ((n) * (n + 1)) / 2; }
-
-int gcd(int a, int b) {
-  // Find Minimum of a and b
-  int result = min(a, b);
-  while (result > 0) {
-    if (a % result == 0 && b % result == 0) {
-      break;
-    }
-    result--;
-  }
-
-  // Return gcd of a and b
-  return result;
-}
-
 int32_t main() {
   letsgooooooooooo cout << fixed << setprecision(7);
   test {
     int n, x, y;
     cin >> n >> x >> y;
-
-    int t = n - (n / x) + (n/gcd(x, y)) ;
-    int m = n / y - (n/gcd(x, y)) ;
-
-    cout << t << " " << m << endl;
-    cout << summ(n) - summ(t) - summ(m) << endl;
+    int add = n / x;
+    int sub = n / y;
+    int com = n / lcm(x, y);
+    add = add - com;
+    sub = sub - com;
+    int ans =
+        n * (n + 1) / 2 - (n - add) * (n - add + 1) / 2 - sub * (sub + 1) / 2;
+    cout << ans << endl;
   }
 
   return 0;
