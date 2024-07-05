@@ -1,5 +1,5 @@
 // Author :- Tushar
-// Date:- 2024-04-15 13:08:46
+// Date:- 2024-06-01 10:03:13
 #include <bits/stdc++.h>
 using namespace std;
 #define int long long
@@ -25,20 +25,25 @@ int32_t main() {
     vector<int> arr(n);
     for (int i = 0; i < n; i++) cin >> arr[i];
 
-    vector<int> temp;
-    int curr = arr[0];
-    for (int i = 1; i < n; i++) {
-      if (arr[i] > curr)
-        temp.push_back(arr[i]);
-      else {
-        curr = min(curr, arr[i]);
+    int ans = 0;
+    int left = INT_MAX, right = INT_MAX;
+
+    for (int i = 0; i < n; i++) {
+      int temp1 = min(left, right);
+      int temp2 = max(left, right);
+      left = temp1;
+      right = temp2;
+
+      if (arr[i] <= left) {
+        left = arr[i];
+      } else if (arr[i] <= right) {
+        right = arr[i];
+      } else {
+        left = arr[i];
+        ans++;
       }
     }
-    int count = 0;
-    for (int i = 1; i < temp.size(); i++) {
-      if (arr[i - 1] < arr[i]) count++;
-    }
-    cout << count << endl;
+    cout << ans << endl;
   }
 
   return 0;
