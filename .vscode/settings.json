@@ -107,5 +107,6 @@
     "__verbose_abort": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled",
-  "C_Cpp.default.compilerPath": "/opt/homebrew/bin/g++-13"
+  "C_Cpp.default.compilerPath": "/opt/homebrew/bin/g++-13",
+  "cph.general.saveLocation": ""
 }

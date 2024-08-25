@@ -3,13 +3,14 @@
 
 #include <ext/pb_ds/assoc_container.hpp>  // Including pb_ds tree
 #include <iostream>
+#include <map>  // Include map
 #include <queue>
 #include <stack>
 #include <string>
 #include <utility>
 #include <vector>
 using namespace __gnu_pbds;  // Namespace for policy-based data structures
-using namespace std ; 
+using namespace std;
 
 // Utility functions for printing various types
 void __print(int x) { std::cerr << x; }
@@ -127,6 +128,19 @@ void __print(const tree<T, V, less<T>, rb_tree_tag,
     elements.push_back(val);
   }
   __print(elements);
+}
+
+// Specialization for maps
+template <typename K, typename V>
+void __print(const std::map<K, V> &m) {
+  std::cerr << '{';
+  bool first = true;
+  for (const auto &pair : m) {
+    if (!first) std::cerr << ", ";
+    first = false;
+    __print(pair);
+  }
+  std::cerr << '}';
 }
 
 void _print() {}

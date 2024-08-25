@@ -1,104 +1,117 @@
-// Author :- Tushar
-// Date:- 2024-06-24 18:43:55
+// clang-format off
+// Author :- Tushar || 13-08-2024 23:57:28
 #include <bits/stdc++.h>
+#ifdef LOCAL
+#include "debug.h"
+#else 
+#define debug(...) 42
+#endif
 using namespace std;
-#define int long long
-#define letsgooooooooooo            \
-  ios_base::sync_with_stdio(false); \
-  cin.tie(NULL);                    \
-  cout.tie(NULL);
-#define test         \
-  int Tushars_07;    \
-  cin >> Tushars_07; \
-  while (Tushars_07--)
-#define endl "\n"
+#define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL); cout << fixed << setprecision(7);
+#define endl "\n" 
 #define no cout << "NO \n";
 #define yes cout << "YES \n";
-// const ll mod = 1000000007;
-// const ll mod = 998244353;
+#define int long long 
+#define PI 3.1415926535897932384626433832795
+const int inf = 1e9 ,INF = 1e18 ,mod1 = 998244353 ,mod = 1000000007; 
+/*
+    ∧＿∧
+　 (｡･ω･｡)つ━☆・*。
+  ⊂/　 /　   ・゜
+　しーＪ　　　     °。+ * 。　
+　　　　　                .・゜
+  */
+// clang-format on
 
-vector<int> segTree;
-int build(vector<int>& arr, int start, int end, int index) {
-  // build the segment tree
-  // time complexity O(n) ;
-  if (start == end) {
-    segTree[index] = arr[start];
-    return 0;
+template <typename Node, typename Update>
+struct SegTree {
+  vector<Node> tree;
+  vector<int> arr;  // type may change
+  int n;
+  int s;
+  SegTree(int a_len, vector<int> &a) {  // change if type updated
+    arr = a;
+    n = a_len;
+    s = 1;
+    while (s < 2 * n) {
+      s = s << 1;
+    }
+    tree.resize(s);
+    fill(tree.begin(), tree.end(), Node());
+    build(0, n - 1, 1);
   }
-  int mid = (start + end) / 2;
-  int left = 2 * index, right = 2 * index + 1;
-  int a = build(arr, start, mid, left);
-  int b = build(arr, mid + 1, end, right);
-
-  if (a == 0 && b == 0) {
-    segTree[index] = segTree[left] | segTree[right];
-    return 1;
+  void build(int start, int end, int index)  // Never change this
+  {
+    if (start == end) {
+      tree[index] = Node(arr[start]);
+      return;
+    }
+    int mid = (start + end) / 2;
+    build(start, mid, 2 * index);
+    build(mid + 1, end, 2 * index + 1);
+    tree[index].merge(tree[2 * index], tree[2 * index + 1]);
   }
-  if (a == 1 && b == 1) {
-    segTree[index] = segTree[left] ^ segTree[right];
-    return 0;
+  void update(int start, int end, int index, int query_index,
+              Update &u)  // Never Change this
+  {
+    if (start == end) {
+      u.apply(tree[index]);
+      return;
+    }
+    int mid = (start + end) / 2;
+    if (mid >= query_index)
+      update(start, mid, 2 * index, query_index, u);
+    else
+      update(mid + 1, end, 2 * index + 1, query_index, u);
+    tree[index].merge(tree[2 * index], tree[2 * index + 1]);
   }
-}
-
-int update(vector<int>& arr, int start, int end, int index, int pos,
-           int value) {
-  // update the segment tree
-  // time complexity O(logn) ;
-  if (start == end) {
-    arr[pos] = value;
-    segTree[index] = value;
-    return 0;
+  Node query(int start, int end, int index, int left,
+             int right) {  // Never change this
+    if (start > right || end < left) return Node();
+    if (start >= left && end <= right) return tree[index];
+    int mid = (start + end) / 2;
+    Node l, r, ans;
+    l = query(start, mid, 2 * index, left, right);
+    r = query(mid + 1, end, 2 * index + 1, left, right);
+    ans.merge(l, r);
+    return ans;
   }
-  int mid = (start + end) / 2;
-  int a = -1;
-  if (mid >= pos)
-    // update left part
-    a = update(arr, start, mid, 2 * index, pos, value);
-  else
-    // update right part
-    a = update(arr, mid + 1, end, 2 * index + 1, pos, value);
-
-  if (a == 0) {
-    segTree[index] = segTree[2 * index] | segTree[2 * index + 1];
-    return 1;
-  } else {
-    segTree[index] = segTree[2 * index] ^ segTree[2 * index + 1];
-    return 0;
+  void make_update(int index,
+                   int val) {         // pass in as many parameters as required
+    Update new_update = Update(val);  // may change
+    update(0, n - 1, 1, index, new_update);
   }
-}
+  Node make_query(int left, int right) {
+    return query(0, n - 1, 1, left, right);
+  }
+};
 
-int query(int start, int end, int index, int l, int r) {
-  // give sum form L to R
-  // time complexity O(logn) ;
+struct Node1 {
+  int val;    // may change
+  Node1() {   // Identity element
+    val = 0;  // may change
+  }
+  Node1(int p1) {  // Actual Node
+    val = p1;      // may change
+  }
+  void merge(Node1 &l, Node1 &r) {  // Merge two child nodes
+    val = l.val ^ r.val;            // may change
+  }
+};
 
-  // complete overlap
-  if (start >= l && end <= r) return segTree[index];
-  // complete disjoint
-  if (l > end || r < start) return 0;
-  // partial overlap
-  int mid = (start + end) / 2;
-  int left = 2 * index, right = 2 * index + 1;
-  int leftSum = query(start, mid, left, l, r);
-  int rightSum = query(mid + 1, end, right, l, r);
-  return leftSum + rightSum;
-}
+struct Update1 {
+  int val;           // may change
+  Update1(int p1) {  // Actual Update
+    val = p1;        // may change
+  }
+  void apply(Node1 &a) {  // apply update to given node
+    a.val = val;          // may change
+  }
+};
 
 int32_t main() {
-  letsgooooooooooo cout << fixed << setprecision(7);
-  int n, m;
-  cin >> n >> m;
-  n = pow(2, n);
-  vector<int> arr(n);
-  for (int i = 0; i < n; i++) cin >> arr[i];
-  segTree.resize(4 * n, -1);
-  build(arr, 0, n - 1, 1);
-
-  while (m--) {
-    int p, b;
-    cin >> p >> b;
-    update(arr, 0, n - 1, 1, p - 1, b);
-    cout << segTree[1] << endl;
-  }
+  fastio;
+  //
 
   return 0;
 }

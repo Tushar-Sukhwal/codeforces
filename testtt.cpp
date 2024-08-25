@@ -1,96 +1,63 @@
-// clang-format off
-// Author :- Tushar || 03-07-2024 17:06:58
-#include <bits/stdc++.h>
-#ifdef LOCAL
-#include "debug.h"
-#else 
-#define debug(x...) 42
-#endif
+#include <iostream>
+#include <stack>
+#include <string>
+#include <vector>
+
 using namespace std;
-#define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL); cout << fixed << setprecision(7);
-#define endl "\n" 
-#define no cout << "NO \n";
-#define yes cout << "YES \n";
-#define int long long 
-#define PI 3.1415926535897932384626433832795
-const int inf = 1e9 ,INF = 1e18 ,mod1 = 998244353 ,mod = 1000000007;
-// clang-format on
 
-vector<int> dp(1e6 + 1, -1);
-vector<int> self(1e6 + 1, -1);
+int evaluateExpression(const vector<string>& expression) {
+  stack<int> st;
 
-vector<int> printDivisors(int n) {
-  vector<int> fact;
-  for (int i = 1; i * i <= n; i++) {
-    if (n % i == 0) {
-      fact.push_back(i);
-      if (i != n / i) {
-        fact.push_back(n / i);
-      }
+  for (int i = expression.size() - 1; i >= 0; --i) {
+    if (expression[i] == "1" || expression[i] == "0") {
+      st.push(stoi(expression[i]));
+    } else if (expression[i] == "!") {
+      int operand = st.top();
+      st.pop();
+      st.push(1 - operand);
+    } else if (expression[i] == "&") {
+      int operand1 = st.top();
+      st.pop();
+      int operand2 = st.top();
+      st.pop();
+      st.push(operand1 & operand2);
+    } else if (expression[i] == "|") {
+      int operand1 = st.top();
+      st.pop();
+      int operand2 = st.top();
+      st.pop();
+      st.push(operand1 | operand2);
     }
   }
-  debug(fact, n);
-  return fact;
+
+  return st.top();
 }
 
-int possibleBySelf(int n) {
-  if (n < 3) return 0;
+vector<int> evaluateCircuitExpressions(
+    const vector<vector<string>>& expressions) {
+  vector<int> results;
 
-  if (self[n] != -1) return self[n];
-
-  vector<int> fact = printDivisors(n);
-  int ans = 0;
-
-  for (int i = 0; i < fact.size(); i++) {
-    if (fact[i] > (n / fact[i]) && (fact[i] + (n / fact[i])) % 2 == 0) {
-      ans++;
-    }
+  for (const auto& expr : expressions) {
+    results.push_back(evaluateExpression(expr));
   }
-  debug("self", n, ans);
-  if (ans) {
-    return self[n] = ans;
-  }
-  return 0;
+
+  return results;
 }
 
-int recc(int n) {
-  if (n < 3) return 0;
+int main() {
+  // Example input: multiple expressions
+  vector<vector<string>> expressions = {
+      {"&", "1", "!", "0"},      // [&, 1, [!, 0]] should return 1
+      {"|", "0", "!", "1"},      // [|, 0, [!, 1]] should return 0
+      {"!", "1"},                // [!, 1] should return 0
+      {"&", "1", "|", "0", "1"}  // [&, 1, [|, 0, 1]] should return 1
+  };
 
-  if (dp[n] != -1) return dp[n];
+  vector<int> results = evaluateCircuitExpressions(expressions);
 
-  vector<int> fact = printDivisors(n);
-
-  int ans = 0;
-  for (int i = 0; i < fact.size(); i++) {
-    if (fact[i] < n) {
-      ans += possibleBySelf(fact[i]);
-    }
-    if (fact[i] > (n / fact[i]) && (fact[i] + (n / fact[i])) % 2 == 0) {
-      ans++;
-    }
+  for (int result : results) {
+    cout << result << " ";
   }
-  debug(ans, n);
-  return dp[n] = ans;
-}
-
-int32_t main() {
-  fastio;
-
-  int n = 1e4;  // Set n to 1e6 to process numbers from 1 to 1e6
-  for (int i = 1; i <= n; i++) {
-    recc(i);
-  }
-
-  ofstream outfile("output.txt");
-  outfile << "{";
-  for (int i = 0; i <= n; i++) {
-    outfile << dp[i];
-    if (i != n) {
-      outfile << ",";
-    }
-  }
-  outfile << "}" << endl;
-  outfile.close();
 
   return 0;
 }

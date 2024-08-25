@@ -1,139 +1,155 @@
+// Author :- Tushar || 23-08-2024 18:12:21
 #include <bits/stdc++.h>
+#ifdef LOCAL
+#include "debug.h"
+#else
+#define debug(...) 42
+#endif
 using namespace std;
+/*
+    ∧＿∧
+　 (｡･ω･｡)つ━☆・*。
+  ⊂/　 /　   ・゜
+　しーＪ　　　     °。+ * 。　
+　　　　　                .・゜
+*/
 
-const int MAX_N = 1000000 + 100;
-
-int n, m;
-unordered_map<int, char> grid[MAX_N];
-unordered_map<int, int> component_id[MAX_N];
-unordered_map<int, int> component_size;
-int curr_id;
-#define ll long long
-
-int dfs(int i, int j) {
-  if (i < 0 || i >= n || j < 0 || j >= m || grid[i][j] == '.' ||
-      component_id[i][j] != -1) {
-    return 0;
+class DisjointSet {
+ public:
+  vector<int> rank, parent, size;
+  DisjointSet(int n) {
+    rank.resize(n + 1, 0);
+    parent.resize(n + 1);
+    size.resize(n + 1);
+    for (int i = 0; i <= n; i++) {
+      parent[i] = i;
+      size[i] = 1;
+    }
   }
+  int findUPar(int node) {
+    if (node == parent[node]) return node;
+    return parent[node] = findUPar(parent[node]);
+  }
+  void unionByRank(int u, int v) {
+    int ulp_u = findUPar(u);
+    int ulp_v = findUPar(v);
+    if (ulp_u == ulp_v) return;
+    if (rank[ulp_u] < rank[ulp_v]) {
+      parent[ulp_u] = ulp_v;
+    } else if (rank[ulp_u] > rank[ulp_v]) {
+      parent[ulp_v] = ulp_u;
+    } else {
+      parent[ulp_v] = ulp_u;
+      rank[ulp_u]++;
+    }
+  }
+  void unionBySize(int u, int v) {
+    int ulp_u = findUPar(u);
+    int ulp_v = findUPar(v);
+    if (ulp_u == ulp_v) return;
+    if (size[ulp_u] < size[ulp_v]) {
+      parent[ulp_u] = ulp_v;
+      size[ulp_v] += size[ulp_u];
+    } else {
+      parent[ulp_v] = ulp_u;
+      size[ulp_u] += size[ulp_v];
+    }
+  }
+};
 
-  component_id[i][j] = curr_id;
-  int size = 1;
+int32_t main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
 
-  size += dfs(i - 1, j);
-  size += dfs(i + 1, j);
-  size += dfs(i, j - 1);
-  size += dfs(i, j + 1);
-
-  return size;
-}
-
-int main() {
-  int t;
-  cin >> t;
-
-  while (t--) {
+  int tt;
+  cin >> tt;
+  while (tt--) {
+    int n, m;
     cin >> n >> m;
 
-    component_size.clear();
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < m; j++) {
-        cin >> grid[i][j];
-        component_id[i][j] = -1;
-      }
-    }
+    vector<string> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
 
-    curr_id = 1;
-    int ans = 0;
+    DisjointSet ds(n * m);
 
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        if (grid[i][j] == '#' && component_id[i][j] == -1) {
-          component_size[curr_id] = dfs(i, j);
-          ans = max(ans, component_size[curr_id]);
-          curr_id++;
+        if (arr[i][j] == '#') {
+          if (i + 1 < n && arr[i + 1][j] == '#') {
+            ds.unionBySize(i * m + j, (i + 1) * m + j);
+          }
+          if (j + 1 < m && arr[i][j + 1] == '#') {
+            ds.unionBySize(i * m + j, i * m + j + 1);
+          }
         }
       }
     }
-
-    int max_size = ans;
+    int maxx = 0;
 
     for (int i = 0; i < n; i++) {
-      int extra = 0;
-      unordered_set<int> s;
-
+      int count = 0;
+      set<int> st;
       for (int j = 0; j < m; j++) {
-        if (grid[i][j] == '#') {
-          s.insert(component_id[i][j]);
+        if (arr[i][j] == '#') {
+          int upar = ds.findUPar(i * m + j);
+          if (!st.count(upar)) {
+            st.insert(upar);
+            count += ds.size[upar];
+          }
         } else {
-          extra++;
-          // checking any other component is present in the same row or column
-
-          // check up down left and right of the current cell
-          if (i > 0 && grid[i - 1][j] == '#') {
-            s.insert(component_id[i - 1][j]);
+          count++;
+          if (i + 1 < n && arr[i + 1][j] == '#') {
+            int upar = ds.findUPar((i + 1) * m + j);
+            if (!st.count(upar)) {
+              st.insert(upar);
+              count += ds.size[upar];
+            }
           }
-          if (i < n - 1 && grid[i + 1][j] == '#') {
-            s.insert(component_id[i + 1][j]);
-          }
-
-          if (j > 0 && grid[i][j - 1] == '#') {
-            s.insert(component_id[i][j - 1]);
-          }
-
-          if (j < m - 1 && grid[i][j + 1] == '#') {
-            s.insert(component_id[i][j + 1]);
+          if (i - 1 >= 0 && arr[i - 1][j] == '#') {
+            int upar = ds.findUPar((i - 1) * m + j);
+            if (!st.count(upar)) {
+              st.insert(upar);
+              count += ds.size[upar];
+            }
           }
         }
+        maxx = max(maxx, count);
       }
-
-      auto it = s.begin();
-      while (it != s.end()) {
-        extra += component_size[*it];
-        it++;
-      }
-      max_size = max(max_size, extra);
     }
-
-    // do this for column also
 
     for (int j = 0; j < m; j++) {
-      int extra = 0;
-      unordered_set<int> s;
-
+      int count = 0;
+      set<int> st;
       for (int i = 0; i < n; i++) {
-        if (grid[i][j] == '#') {
-          s.insert(component_id[i][j]);
+        if (arr[i][j] == '#') {
+          int upar = ds.findUPar(i * m + j);
+          if (!st.count(upar)) {
+            st.insert(upar);
+            count += ds.size[upar];
+          }
         } else {
-          extra++;
-          // checking any other component is present in the same row or column
-
-          // check up down left and right of the current cell
-          if (i > 0 && grid[i - 1][j] == '#') {
-            s.insert(component_id[i - 1][j]);
+          count++;
+          if (j + 1 < m && arr[i][j + 1] == '#') {
+            int upar = ds.findUPar(i * m + j + 1);
+            if (!st.count(upar)) {
+              st.insert(upar);
+              count += ds.size[upar];
+            }
           }
-          if (i < n - 1 && grid[i + 1][j] == '#') {
-            s.insert(component_id[i + 1][j]);
-          }
-
-          if (j > 0 && grid[i][j - 1] == '#') {
-            s.insert(component_id[i][j - 1]);
-          }
-
-          if (j < m - 1 && grid[i][j + 1] == '#') {
-            s.insert(component_id[i][j + 1]);
+          if (j - 1 >= 0 && arr[i][j - 1] == '#') {
+            int upar = ds.findUPar(i * m + j - 1);
+            if (!st.count(upar)) {
+              st.insert(upar);
+              count += ds.size[upar];
+            }
           }
         }
+        maxx = max(maxx, count);
       }
-
-      auto it = s.begin();
-      while (it != s.end()) {
-        extra += component_size[*it];
-        it++;
-      }
-      max_size = max(max_size, extra);
     }
 
-    cout << max_size << endl;
+    cout << maxx << endl;
   }
 
   return 0;
