@@ -1,50 +1,38 @@
-// Author :- Tushar
-// Date:- 2024-04-11 15:00:06
+// Author :- Tushar || 24-12-2024 18:31:09
 #include <bits/stdc++.h>
-using namespace std;
 #define int long long
-#define letsgooooooooooo            \
-  ios_base::sync_with_stdio(false); \
-  cin.tie(NULL);                    \
-  cout.tie(NULL);
-#define test         \
-  int Tushars_07;    \
-  cin >> Tushars_07; \
-  while (Tushars_07--)
-#define endl "\n"
-#define no cout << "NO \n";
-#define yes cout << "YES \n";
-const int mod = 1000000007;
-// const ll mod = 998244353;
+using namespace std;
+/*
+    ∧＿∧
+　 (｡･ω･｡)つ━☆・*。
+  ⊂/　 /　   ・゜
+　しーＪ　　　     °。+ * 。　
+　　　　　                .・゜
+*/
 
 int32_t main() {
-  letsgooooooooooo cout << fixed << setprecision(7);
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+
   int n;
   cin >> n;
   vector<string> arr(n);
   for (int i = 0; i < n; i++) cin >> arr[i];
+  int mod = 1e9 + 7;
 
   vector<vector<int>> dp(n, vector<int>(n, 0));
+  if (arr[0][0] == '.') dp[0][0] = 1;
 
-  dp[n - 1][n - 1] = 1;
-
-  for (int i = n - 1; i >= 0; i--) {
-    for (int j = n - 1; j >= 0; j--) {
-      if (arr[i][j] == '*') {
-        dp[i][j] = 0;
-        continue;
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      if (arr[i][j] == '.') {
+        if (i - 1 >= 0) dp[i][j] = (dp[i][j] + dp[i - 1][j]) % mod;
+        if (j - 1 >= 0) dp[i][j] = (dp[i][j] + dp[i][j - 1]) % mod;
       }
-
-      if (j == n - 1 && i == n - 1) continue;
-      if (j == n - 1)
-        dp[i][j] = dp[i + 1][j];
-      else if (i == n - 1)
-        dp[i][j] = dp[i][j + 1];
-      else
-        dp[i][j] = (dp[i + 1][j] + dp[i][j + 1]) % mod;
     }
   }
-  cout << dp[0][0];
+  cout << dp[n - 1][n - 1];
 
   return 0;
 }

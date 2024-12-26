@@ -1,28 +1,46 @@
-// clang-format off
-// Author :- Tushar || 27-07-2024 09:14:13
+// Author :- Tushar || 08-09-2024 11:10:12
 #include <bits/stdc++.h>
 #ifdef LOCAL
 #include "debug.h"
-#else 
-#define debug(x...) 42
+#else
+#define debug(...) 42
 #endif
+#define int long long
 using namespace std;
-#define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL); cout << fixed << setprecision(7);
-#define endl "\n" 
-#define no cout << "NO \n";
-#define yes cout << "YES \n";
-#define int long long 
-#define PI 3.1415926535897932384626433832795
-const int inf = 1e9 ,INF = 1e18 ,mod1 = 998244353 ,mod = 1000000007;
-// clang-format on
+/*
+    ∧＿∧
+　 (｡･ω･｡)つ━☆・*。
+  ⊂/　 /　   ・゜
+　しーＪ　　　     °。+ * 。　
+　　　　　                .・゜
+*/
+
+
 
 int32_t main() {
-  fastio;
-  //
-  string str;
-  cin >> str;
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
 
+  string str; 
+  cin >> str; 
 
+  int n = str.size(); 
+  int i = 0; 
+  int ans = 0; 
+  
+  while(i < n) {
+    int count = 1; 
+    i++; 
+    while(i < n && str[i] == str[i-1]) {
+      count++; 
+      i++; 
+    }
+    ans = max(ans, count); 
+  }
+  cout << ans << endl; 
 
   return 0;
 }
+
+

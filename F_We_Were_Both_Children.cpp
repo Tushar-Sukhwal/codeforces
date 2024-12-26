@@ -14,8 +14,8 @@ using namespace std;
 #define yes cout<<"YES \n";
 // const ll mod = 1000000007;
 // const ll mod = 998244353;
-
-
+ 
+  
 int32_t main() {
   letsgooooooooooo cout << fixed << setprecision(7);
   test {
