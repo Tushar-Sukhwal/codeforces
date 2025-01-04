@@ -1,4 +1,4 @@
-// Author :- Tushar || 18-12-2024 10:52:28
+// Author :- Tushar || 31-12-2024 00:24:40
 #include <bits/stdc++.h>
 #define int long long
 using namespace std;
@@ -10,8 +10,6 @@ using namespace std;
 　　　　　                .・゜
 */
 
-void dfs(int node, )
-
 int32_t main() {
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
@@ -20,15 +18,23 @@ int32_t main() {
   int n;
   cin >> n;
 
-  vector<pair<int, int>> adj(n);
-
-  for (int i = 0; i < n; i++) {
-    int u, v;
-    cin >> u >> v;
-    adj[i] = make_pair({u, v});
+  if (n % 2 == 0) {
+    cout << n / 2 << endl;
+    return 0;
   }
 
+  int fac = 0;
+  for (int i = 2; i <= sqrt(n); i++) {
+    if (n % i == 0) {
+      fac = i;
+      break;
+    }
+  }
 
+  if(fac == 0) n = 0; 
+  n = n - fac;
+
+  cout << 1 + (n / 2) << endl;
 
   return 0;
 }
