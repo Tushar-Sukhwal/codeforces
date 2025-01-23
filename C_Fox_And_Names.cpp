@@ -1,10 +1,5 @@
-// Author :- Tushar || 08-09-2024 02:27:02
+// Author :- Tushar || 21-01-2025 18:57:34
 #include <bits/stdc++.h>
-#ifdef LOCAL
-#include "debug.h"
-#else
-#define debug(...) 42
-#endif
 #define int long long
 using namespace std;
 /*
@@ -20,11 +15,9 @@ int32_t main() {
   cin.tie(NULL);
   cout.tie(NULL);
 
-  int n;
-  cin >> n;
-
-
-
+  int tt;
+  cin >> tt;
+  
 
   return 0;
 }
