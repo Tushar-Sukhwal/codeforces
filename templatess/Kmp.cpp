@@ -1,38 +1,31 @@
-vector<int> kmp(string s) {  // O(n)
-  int n = s.size();
-  vector<int> pi(n, 0);
-  for (int i = 1; i < n; i++) {
-    int j = pi[i - 1];  // how many characters matched till here max
-    while (j > 0 && s[i] != s[j]) {
-      j = pi[j - 1];
-    }  // keep going back until something matches but i remains where it was
-    if (s[i] == s[j]) {
-      j++;
+// Prefix that matches any substring of the string
+// Largest prefix that matches a suffix
+
+vector<int> kmp(string s) {
+  vector<int> lps(s.size(), 0);
+  for (int i = 1; i < s.size(); i++) {
+    int prev_idx = lps[i - 1];
+    while (prev_idx > 0 && s[i] != s[prev_idx]) {
+      prev_idx = lps[prev_idx - 1];
     }
-    pi[i] = j;
+    if (s[i] == s[prev_idx]) {
+      prev_idx++;
+    }
+    lps[i] = prev_idx;
   }
-  return pi;
+  return lps;
 }
 
-int string_matching(string s, string pat) {
-  vector<int> pi = kmp(s);
-  cout << endl;
-  int i = 0, j = 0;
-  int ans_pos = -1;
-  while (i < s.size()) {
-    if (s[i] == pat[j]) {
-      i++, j++;
-    } else {
-      if (j > 0) {
-        j = pi[j - 1];
-      } else {
-        i++;
-      }
-    }
-    if (j == pat.size()) {
-      ans_pos = i - pat.size();
-      break;
+vector<int> kmp_search(string text, string pattern) {
+  string combined = pattern + "#" + text;
+  vector<int> lps = kmp(combined);
+  vector<int> res;
+
+  int m = pattern.size();
+  for (int i = m + 1; i < lps.size(); i++) {
+    if (lps[i] == m) {
+      res.push_back(i - 2 * m);
     }
   }
-  return ans_pos;
+  return res;
 }

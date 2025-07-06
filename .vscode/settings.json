@@ -104,7 +104,14 @@
     "stdfloat": "cpp",
     "stop_token": "cpp",
     "syncstream": "cpp",
-    "__verbose_abort": "cpp"
+    "__verbose_abort": "cpp",
+    "version": "cpp",
+    "print": "cpp",
+    "generator": "cpp",
+    "text_encoding": "cpp",
+    "socket.h": "c",
+    "in.h": "c",
+    "types.h": "c"
   },
   "C_Cpp.errorSquiggles": "disabled",
   "C_Cpp.default.compilerPath": "/opt/homebrew/bin/g++-13",

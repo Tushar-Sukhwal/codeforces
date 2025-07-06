@@ -21,7 +21,7 @@ int lca(int u, int v) {
   for (int i = L - 1; i >= 0; i--)
     if (!anc(up[u][i], v)) u = up[u][i];
   return up[u][0];
-}
+} 
 
 int dist(int u, int v) { return d[u] + d[v] - 2 * d[lca(u, v)]; }
 
@@ -30,14 +30,14 @@ int lift(int u, int k) {
   for (int i = L - 1; i >= 0; i--)
     if (k >= (1 << i)) u = up[u][i], k -= (1 << i);
   return u;
-}
+} 
 
 // Call this in main before queries
 void init(int root = 0) {
   T = 0;
   d[root] = 0;
   dfs(root, root);
-}
+} 
 
 //
 //
@@ -52,9 +52,9 @@ void init(int root = 0) {
 // class implemenation
 class LCA {
  private:
-  vector<vector<int>> up;
-  vector<int> tin, tout, depth;
-  int n, timer, L;
+  vector<vector<int>> up; 
+  vector<int> tin, tout, depth; 
+  int n, timer, L;  
 
   void dfs(int node, int parent, vector<vector<int>>& adj) {
     tin[node] = ++timer;

@@ -1,19 +1,33 @@
-#include <bitset>
-#include <cstddef>
-#include <iostream>
+// Author :- Tushar || 10-02-2025 19:20:37
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+/*
+    ∧＿∧
+　 (｡･ω･｡)つ━☆・*。
+  ⊂/　 /　   ・゜
+　しーＪ　　　     °。+ * 。　
+　　　　　                .・゜
+*/
 
-int main() {
-  constexpr size_t BITSET_SIZE = 1000000;
+class parent {
+ public:
+  int a;
+  parent() { cout << "parent constructor"; }
+};
 
-  // Basic calculation of memory needed
-  size_t bits_per_word = sizeof(unsigned long long) * 8;
-  size_t words_needed = (BITSET_SIZE + bits_per_word - 1) / bits_per_word;
-  size_t memory_estimate = words_needed * sizeof(unsigned long long);
+class child : parent {
+ public:
+  int b;
+  child() { cout << "child constructor"; }
+};
 
-  std::bitset<BITSET_SIZE> my_bitset;
+int32_t main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
 
-  std::cout << "Estimated memory for " << BITSET_SIZE
-            << "-bit bitset: " << memory_estimate << " bytes" << std::endl;
+  child();
 
   return 0;
 }

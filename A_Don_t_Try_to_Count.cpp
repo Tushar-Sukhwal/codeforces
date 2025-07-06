@@ -38,7 +38,7 @@ int32_t main() {
       }
       sub = sub + sub;
     }
-    cout<<sub<<endl; 
+    cout << sub << endl;
     if (flag) {
     } else {
       cout << -1 << endl;
